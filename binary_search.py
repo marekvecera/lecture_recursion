@@ -1,5 +1,6 @@
 import os
 import json
+from math import floor
 
 cwd_path = os.getcwd()
 file_path = "files"
@@ -42,11 +43,28 @@ def binary_search(seq, number):
     return None
 
 
+def recursive_binary_search(lst: list, target, left_index = 0, right_index = -1):
+    if right_index == -1:
+        right_index = len(lst) - 1
+    if not lst[left_index:right_index]:
+        return None
+    act_idx = floor((left_index + right_index)/2)
+    act = lst[act_idx]
+    if act == target:
+        return act_idx
+    else:
+        if act > target:
+            return recursive_binary_search(lst, target, left_index, act_idx)
+        else:
+            return recursive_binary_search(lst, target, act_idx, right_index)
+
+
 def main(file_name, number):
     sequence = read_data(file_name=file_name, key="ordered_numbers")
 
     # iterative binary search
-    binary_search(sequence, number=number)
+    # print(binary_search(sequence, number=number))
+    print(recursive_binary_search(sequence, number))
 
 
 if __name__ == "__main__":
